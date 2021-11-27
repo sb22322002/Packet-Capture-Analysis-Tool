@@ -27,7 +27,7 @@ def filter():
         for line in i:
             # search for headers containing ICMP
             if "ICMP" in line:
-                # redirect all stout to _filtered text file
+                # redirect all stout to _filtered text file using contextlib
                 with open(new_file, 'a') as f:
                     with contextlib.redirect_stdout(f):
                         # print formatted header
