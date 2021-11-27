@@ -5,6 +5,7 @@ def filter():
     """Filters the raw text files so that only ICMP Echo Request and ICMP Echo Reply packets remain.
     This filtered data is redirected to _filtered.txt files for each raw text file
     """
+    
     count = 1
     # place all files into a list for convenience
     files = []
