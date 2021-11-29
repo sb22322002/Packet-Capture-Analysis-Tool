@@ -12,11 +12,18 @@ def parse(fileName, list):
 
     filtered.close()
 
-# test
+# calling filtered function from filter_packets
 filter()
-file = "Node1_filtered.txt"
-l = []
-parse(file, l)
-print(l)
+
+# redirecting parsed data to list for each filtered file
+list1 = []
+list2 = []
+list3 = []
+list4 = []
+
+parse("Node1_filtered.txt", list1)
+parse("Node2_filtered.txt", list2)
+parse("Node3_filtered.txt", list3)
+parse("Node4_filtered.txt", list4)
 
 	
