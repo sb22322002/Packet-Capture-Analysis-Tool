@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from filter_packets import *
 
 # taking file that needs to be parsed and outputting parsed list
