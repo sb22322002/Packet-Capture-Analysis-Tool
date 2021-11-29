@@ -5,7 +5,7 @@ def filter():
     """Filters the raw text files so that only ICMP Echo Request and ICMP Echo Reply packets remain.
     This filtered data is redirected to _filtered.txt files for each raw text file
     """
-    
+
     count = 1
     # place all files into a list for convenience
     files = []
@@ -26,8 +26,8 @@ def filter():
         nf.close()
         # read each file line by line
         for line in i:
-            # search for headers containing ICMP
-            if "ICMP" in line:
+            # search for headers containing ICMP and Echo (ping)
+            if "ICMP" and "Echo (ping)" in line:
                 # redirect all stout to _filtered text file using contextlib
                 with open(new_file, 'a') as f:
                     with contextlib.redirect_stdout(f):
