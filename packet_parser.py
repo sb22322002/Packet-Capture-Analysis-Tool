@@ -1,29 +1,23 @@
 #!/usr/bin/env python3
-from filter_packets import *
-
 # taking file that needs to be parsed and outputting parsed list
-def parse(fileName, list):
-    filtered = open(fileName, "r")
-    line = filtered.readline()
+def parse():
+    f1 = open("Node1_filtered.txt", "r")
+    f2 = open("Node2_filtered.txt", "r")
+    f3 = open("Node3_filtered.txt", "r")
+    f4 = open("Node4_filtered.txt", "r")
+    files = [f1, f2, f3, f4]
+    big_list = []
 
-    while line:
-        list.append(line.strip().split())
-        line = filtered.readline()
+    for i in files:
+        ls = []
+        for line in i:
+            if "No." in line:
+                line = i.readline()
+                ls.append(line)
+                print(line)
 
-    filtered.close()
 
-# calling filtered function from filter_packets
-filter()
+        # print(ls)
+        big_list.append(ls)
 
-# redirecting parsed data to list for each filtered file
-list1 = []
-list2 = []
-list3 = []
-list4 = []
-
-parse("Node1_filtered.txt", list1)
-parse("Node2_filtered.txt", list2)
-parse("Node3_filtered.txt", list3)
-parse("Node4_filtered.txt", list4)
-
-	
+    return big_list
