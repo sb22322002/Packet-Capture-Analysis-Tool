@@ -1,4 +1,6 @@
-#!/usr/bin/env python3
+import re
+
+# !/usr/bin/env python3
 # taking file that needs to be parsed and outputting parsed list
 def parse():
     f1 = open("Node1_filtered.txt", "r")
@@ -13,11 +15,11 @@ def parse():
         for line in i:
             if "No." in line:
                 line = i.readline()
-                ls.append(line)
-                print(line)
-
-
-        # print(ls)
-        big_list.append(ls)
-
+                new = re.sub("\s+", " ", line.strip())
+                ls.append(new)
+    print(ls)
+    big_list.append(ls)
     return big_list
+
+parse()
+
