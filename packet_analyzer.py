@@ -5,4 +5,4 @@ from compute_metrics import *
 
 filter()
 data = parse()
-compute()
+compute(data)

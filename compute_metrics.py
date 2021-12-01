@@ -1,6 +1,7 @@
 def compute(data) :
 	print('called compute function in compute_metrics.py')
 	print(data)
+	print(len(data))
 
 def data_size():
 	print('Computes: number of echo requests sent, number of echo requests recieved, number of echo replies sent, and number of echo replies recieved')

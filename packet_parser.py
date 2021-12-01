@@ -17,8 +17,9 @@ def parse():
                 line = i.readline()
                 new = re.sub("\s+", " ", line.strip())
                 ls.append(new)
+        big_list.append(ls)
     print(ls)
-    big_list.append(ls)
+
     return big_list
 
 parse()
