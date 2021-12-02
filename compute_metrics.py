@@ -1,3 +1,6 @@
+from typing import Any
+
+
 def compute(data):
     for filedata in data:
         sum_echo_requests_sent = 0
@@ -41,11 +44,34 @@ def compute(data):
                 #if (line[7] == current_sequence):
                     #sum_rtt += float(line[1]) / src_time
 
-            sum_frame += int(line[5])
+        for line in filedata:
 
-            counter += 1
+            if 'request' in line[6]:
+                time1 = float(line[1])
+                print("request: " + str(line[1]) + " seq: " + line[7])
+                print(line)
+                seq = line[7]
+                for line2 in filedata:
+                    rtt = 0
+                    if 'reply' in line2[6] and line2[7] == seq:
+                        time2 = float(line2[1])
+                        print("reply: " + str(line2[1]) + " seq: " + line2[7])
+                        print(line2)
+                        rtt = time2 - time1
+                        print("rtt: " + str(rtt))
+                        counter += 1
+                        sum_rtt += rtt
+                        break
+                        # print(counter)
+
+                #print(sum_rtt)
+                #break
+
+
+        trtt = (sum_rtt / counter)
+        print(trtt)
         #print(sum_rtt)
-        avg_rtt = sum_rtt/counter
+        #avg_rtt = sum_rtt/counter
 
         print("Total requests sent: " + str(sum_echo_requests_sent))
         print("Total replies sent: " + str(sum_echo_replies_sent))
@@ -57,3 +83,4 @@ def compute(data):
         print("Total Echo Request Data Recieved: " + str(total_echo_request_data_received))
         #print("Average RTT (ms) " + str(avg_rtt))
         print("End of a node")
+        break
