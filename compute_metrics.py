@@ -14,20 +14,20 @@ def compute(data):
         counter = 0
         for line in filedata:
             # print(line)
-            print(len(filedata))  # test to make sure no data was lost
+            # print(len(filedata))
 
             if "192.168.100.1" in line[2] and line[6].split(' ')[2] == "request":
                 sum_echo_requests_sent += 1
                 total_echo_request_bytes_sent += int(line[5])
             if line[2] == "192.168.100.1" and "reply" in line[6].split(' ')[2]:
                 sum_echo_replies_sent += 1
-                total_echo_request_bytes_received += int(line[5])
-            if "192.168.100.1" not in line[2] and  "request" in line[6].split(' ')[2]:
+                # total_echo_request_bytes_received += int(line[5])
+            if "192.168.100.1" not in line[2] and "request" in line[6].split(' ')[2]:
                 sum_echo_requests_received += 1
-                total_echo_request_bytes_sent += int(line[5])
+                total_echo_request_bytes_received += int(line[5])
             if "192.168.100.1" not in line[2] and "reply" in line[6].split(' ')[2]:
                 sum_echo_replies_received += 1
-                total_echo_request_bytes_received += int(line[5])
+                # total_echo_request_bytes_received += int(line[5])
 
             sum_frame += int(line[5])
 
