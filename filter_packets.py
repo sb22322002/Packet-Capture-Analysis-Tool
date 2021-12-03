@@ -8,16 +8,12 @@ def filter():
     """
 
     count = 1
-    # place all files into a list for convenience
-    files = []
     f1 = open("Node1.txt", "r")
-    files.append(f1)
     f2 = open("Node2.txt", "r")
-    files.append(f2)
     f3 = open("Node3.txt", "r")
-    files.append(f3)
     f4 = open("Node4.txt", "r")
-    files.append(f4)
+    # place all files into a list for convenience
+    files = [f1, f2, f3, f4]
 
     # loop for every file in list
     for i in files:
