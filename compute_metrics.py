@@ -32,12 +32,16 @@ def compute(data):
         request_ttl = 0
         hops = []
 
+        # Node IPs
+        ips = ["192.168.100.1", "192.168.100.2", "192.168.200.1", "192.168.200.2"]
+        counter = 0
+
         for line in filedata:
             # print(line)           # test to display fields in each line
             # print(len(filedata))  # testing for any loss of data
 
             # request sent
-            if "192.168.100.1" in line[2] and "request" in line[6].split(' ')[2]:
+            if ips[counter] in line[2] and "request" in line[6].split(' ')[2]:
                 sum_echo_requests_sent += 1
                 total_echo_request_bytes_sent += int(line[5])
                 total_echo_request_data_sent += (int(line[5]) - 42)  # subtract the headers
@@ -49,7 +53,7 @@ def compute(data):
                 request_ttl = int(line[8].split("=")[1].split(" ")[0])
 
             # request received
-            if "192.168.100.1" not in line[2] and "request" in line[6].split(' ')[2]:
+            if ips[counter] not in line[2] and "request" in line[6].split(' ')[2]:
                 sum_echo_requests_received += 1
                 total_echo_request_bytes_received += int(line[5])
                 total_echo_request_data_received += (int(line[5]) - 42)  # subtract the headers
@@ -60,7 +64,7 @@ def compute(data):
                 seq_time = float(line[1]) * 1000000
 
             # reply received
-            if "192.168.100.1" not in line[2] and "reply" in line[6].split(' ')[2]:
+            if ips[counter] not in line[2] and "reply" in line[6].split(' ')[2]:
                 sum_echo_replies_received += 1
 
                 # reply will always be second in sequence so pair with matching request and calculate time difference
@@ -72,7 +76,7 @@ def compute(data):
                     hops.append(request_ttl - (int(line[8].split("=")[1].split(" ")[0])) + 1)
 
             # reply sent
-            if "192.168.100.1" in line[2] and "reply" in line[6].split(' ')[2]:
+            if ips[counter] in line[2] and "reply" in line[6].split(' ')[2]:
                 sum_echo_replies_sent += 1
 
                 # reply will always be second in sequence so pair with matching request and calculate time difference
@@ -82,6 +86,7 @@ def compute(data):
                     # print(str(float(line[1]) * 1000000) + " - " + str(seq_time))
                     # print(rtt_total)
 
+        counter += 1
         rtt = rtt_total / rtt_pair_count
         reply_delay = reply_delay_total / reply_delay_pair_count
         hops_avg = (sum(hops) / len(hops))
@@ -105,8 +110,3 @@ def compute(data):
         print()
         print("Average Echo Request Hop Count: " + str(round(hops_avg, 2)))
         print("End of a node\n")
-
-#########################################################
-# Results for Node 1 should be working I'm going to bed
-# https://c.tenor.com/m4DT6JjGu7sAAAAM/boogie-dance.gif
-#########################################################
