@@ -5,6 +5,7 @@ def compute(data):
     """
 
     counter = 0
+    node_info = []
     # loop for every list element in list data
     for filedata in data:
         # variables for data size metrics
@@ -93,20 +94,38 @@ def compute(data):
         throughput = total_echo_request_bytes_sent / rtt_total
         goodput = total_echo_request_data_sent / rtt_total
 
-        # print results
-        print("Total requests sent: " + str(sum_echo_requests_sent))
-        print("Total replies sent: " + str(sum_echo_replies_sent))
-        print("Total requests received: " + str(sum_echo_requests_received))
-        print("Total replies received: " + str(sum_echo_replies_received))
-        print("Total Echo Request Bytes Sent: " + str(total_echo_request_bytes_sent))
-        print("Total Echo Request Bytes Received: " + str(total_echo_request_bytes_received))
-        print("Total Echo Request Data Sent: " + str(total_echo_request_data_sent))
-        print("Total Echo Request Data Received: " + str(total_echo_request_data_received))
-        print()
-        print("Average RTT (ms): " + str(round(rtt, 2)))
-        print("Echo Request Throughput (kB/sec): " + str(round(throughput, 1)))
-        print("Echo Request Goodput (kB/sec): " + str(round(goodput, 1)))
-        print("Average Reply Delay (μs): " + str(round(reply_delay, 2)))
-        print()
-        print("Average Echo Request Hop Count: " + str(round(hops_avg, 2)))
-        print("End of a node\n")
+        # Add info to node_info list to print out to file later.
+        node_info.append([sum_echo_requests_sent, sum_echo_requests_received, sum_echo_replies_sent, sum_echo_replies_received, total_echo_request_bytes_sent, total_echo_request_data_sent, total_echo_request_bytes_received, total_echo_request_data_received, round(rtt, 2), round(throughput, 1), round(goodput, 1), round(reply_delay, 2), round(hops_avg, 2)])
+
+    # Open the output file
+    output_file = open('output.csv', "w")
+
+    # Loop through node_info and write each field accordingly
+    node_counter = 1
+    for node in node_info:
+        output_file.write("Node " + str(node_counter) + "\n\n")
+        output_file.write("Echo Requests Sent, Echo Requests Recieved, Echo Replies Sent, Echo Replies Recieved, \n")
+        item = str(node[0]) + "," + str(node[1]) + "," + str(node[2]) + "," + str(node[3]) + "\n"
+        output_file.write(item)
+        output_file.write("Echo Request Bytes Sent (bytes), Echo Request Data Sent (bytes)\n")
+        item = str(node[4]) + "," + str(node[5]) + "\n"
+        output_file.write(item)
+        output_file.write("Echo Request Bytes Recived (bytes), Echo Request Data Recieved (Bytes)\n")
+        item = str(node[6]) + "," + str(node[7]) + "\n\n"
+        output_file.write(item)
+        item = "Average RTT (milliseconds)," + str(node[8]) + "\n"
+        output_file.write(item)
+        item = "Echo Request Throughput (kB/sec)," + str(node[9]) + "\n"
+        output_file.write(item)
+        item = "Echo Request Goodput (kB/sec)," + str(node[10]) + "\n"
+        output_file.write(item)
+        item = "Average Reply Delay (microseconds)," + str(node[11]) + "\n"
+        output_file.write(item)
+        item = "Average Echo Request Hop Count," + str(node[12]) + "\n\n"
+        output_file.write(item)
+
+        node_counter += 1
+
+    # Close output file
+    output_file.close()
+
