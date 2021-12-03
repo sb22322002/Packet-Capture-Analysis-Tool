@@ -2,6 +2,8 @@ from typing import Any
 
 
 def compute(data):
+    node_info = []
+
     for filedata in data:
         sum_echo_requests_sent = 0
         sum_echo_requests_received = 0
@@ -100,5 +102,34 @@ def compute(data):
         print("Echo Request Goodput (kB/sec): " + str(goodput))
         print("Average Reply Delay (us): " + str(avg_delay))
         print("Average Echo Request Hop Count: " + str(avg_hops))
+
+        node_info.append([sum_echo_requests_sent, sum_echo_requests_received, sum_echo_replies_sent, sum_echo_replies_received, total_echo_request_bytes_sent, total_echo_request_data_sent, total_echo_request_bytes_received, total_echo_request_data_received, avg_rtt, throughput, goodput, avg_delay, avg_hops])
         print("End of a node")
         break
+
+    output_file = open('output.csv', "w")
+
+    node_counter = 1
+    for node in node_info:
+        output_file.write("Node " + str(node_counter) + "\n\n")
+        output_file.write("Echo Requests Sent, Echo Requests Recieved, Echo Replies Sent, Echo Replies Recieved, \n")
+        item = str(node[0]) + "," + str(node[1]) + "," + str(node[2]) + "," + str(node[3]) + "\n"
+        output_file.write(item)
+        output_file.write("Echo Request Bytes Sent (bytes), Echo Request Data Sent (bytes)\n")
+        item = str(node[4]) + "," + str(node[5]) + "\n"
+        output_file.write(item)
+        output_file.write("Echo Request Bytes Recived (bytes), Echo Request Data Recieved (Bytes)\n")
+        item = str(node[6]) + "," + str(node[7]) + "\n\n"
+        output_file.write(item)
+        item = "Average RTT (milliseconds)," + str(node[8]) + "\n"
+        output_file.write(item)
+        item = "Echo Request Throughput (kB/sec)," + str(node[9]) + "\n"
+        output_file.write(item)
+        item = "Echo Request Goodput (kB/sec)," + str(node[10]) + "\n"
+        output_file.write(item)
+        item = "Average Reply Delay (microseconds)," + str(node[11]) + "\n"
+        output_file.write(item)
+        item = "Average Echo Request Hop Count," + str(node[12]) + "\n"
+        output_file.write(item)
+
+    output_file.close()
