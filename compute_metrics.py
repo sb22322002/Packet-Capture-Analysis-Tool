@@ -44,32 +44,46 @@ def compute(data):
                 #if (line[7] == current_sequence):
                     #sum_rtt += float(line[1]) / src_time
 
+        hops = []
         for line in filedata:
 
             if 'request' in line[6]:
                 time1 = float(line[1])
-                print("request: " + str(line[1]) + " seq: " + line[7])
-                print(line)
+                #print("request: " + str(line[1]) + " seq: " + line[7])
+                #print(line)
                 seq = line[7]
+
+                request_ttl = line[8].split('=')[1].split(" ")[0]
                 for line2 in filedata:
                     rtt = 0
                     if 'reply' in line2[6] and line2[7] == seq:
                         time2 = float(line2[1])
-                        print("reply: " + str(line2[1]) + " seq: " + line2[7])
-                        print(line2)
+                        #print("reply: " + str(line2[1]) + " seq: " + line2[7])
                         rtt = time2 - time1
-                        print("rtt: " + str(rtt))
+                        #print("rtt: " + str(rtt))
                         counter += 1
                         sum_rtt += rtt
-                        break
+
+                        reply_ttl = line2[8].split('=')[1].split(" ")[0]
+                        current_hops = (int(request_ttl) - int(reply_ttl)) + 1
+                        hops.append(current_hops)
                         # print(counter)
+
 
                 #print(sum_rtt)
                 #break
 
+        print("Sum rtt: " + str(sum_rtt))
+        avg_rtt = (sum_rtt / counter) * 1000
+        print("Average RTT: " + str(avg_rtt))
 
-        trtt = (sum_rtt / counter)
-        print(trtt)
+        throughput = (total_echo_request_bytes_sent / sum_rtt) / 1000
+        goodput = (sum_echo_requests_sent / sum_rtt) / 1000
+
+        avg_delay = (sum_rtt / counter) * 1000000 # I think... (time of reply - time of request) / counter (num of exchanges) * 1000000
+
+        avg_hops = sum(hops) / len(hops)
+
         #print(sum_rtt)
         #avg_rtt = sum_rtt/counter
 
@@ -81,6 +95,10 @@ def compute(data):
         print("Total Echo Request Bytes Recieved: " + str(total_echo_request_bytes_received))
         print("Total Echo Request Data Sent: " + str(total_echo_request_data_sent))
         print("Total Echo Request Data Recieved: " + str(total_echo_request_data_received))
-        #print("Average RTT (ms) " + str(avg_rtt))
+        print("Average RTT (ms): " + str(avg_rtt))
+        print("Echo Request Throughput (kB/sec): " + str(throughput))
+        print("Echo Request Goodput (kB/sec): " + str(goodput))
+        print("Average Reply Delay (us): " + str(avg_delay))
+        print("Average Echo Request Hop Count: " + str(avg_hops))
         print("End of a node")
         break
