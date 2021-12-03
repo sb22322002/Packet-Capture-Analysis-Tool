@@ -4,6 +4,7 @@ def compute(data):
     4 Time based metrics, and 1 Distance metric
     """
 
+    counter = 0
     # loop for every list element in list data
     for filedata in data:
         # variables for data size metrics
@@ -34,7 +35,6 @@ def compute(data):
 
         # Node IPs
         ips = ["192.168.100.1", "192.168.100.2", "192.168.200.1", "192.168.200.2"]
-        counter = 0
 
         for line in filedata:
             # print(line)           # test to display fields in each line
