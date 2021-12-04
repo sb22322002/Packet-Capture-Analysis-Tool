@@ -95,7 +95,10 @@ def compute(data):
         goodput = total_echo_request_data_sent / rtt_total
 
         # Add info to node_info list to print out to file later.
-        node_info.append([sum_echo_requests_sent, sum_echo_requests_received, sum_echo_replies_sent, sum_echo_replies_received, total_echo_request_bytes_sent, total_echo_request_data_sent, total_echo_request_bytes_received, total_echo_request_data_received, round(rtt, 2), round(throughput, 1), round(goodput, 1), round(reply_delay, 2), round(hops_avg, 2)])
+        node_info.append([sum_echo_requests_sent, sum_echo_requests_received, sum_echo_replies_sent,
+                          sum_echo_replies_received, total_echo_request_bytes_sent, total_echo_request_data_sent,
+                          total_echo_request_bytes_received, total_echo_request_data_received, round(rtt, 2),
+                          round(throughput, 1), round(goodput, 1), round(reply_delay, 2), round(hops_avg, 2)])
 
     # Open the output file
     output_file = open('output.csv', "w")
@@ -104,13 +107,13 @@ def compute(data):
     node_counter = 1
     for node in node_info:
         output_file.write("Node " + str(node_counter) + "\n\n")
-        output_file.write("Echo Requests Sent, Echo Requests Recieved, Echo Replies Sent, Echo Replies Recieved, \n")
+        output_file.write("Echo Requests Sent, Echo Requests Received, Echo Replies Sent, Echo Replies Received, \n")
         item = str(node[0]) + "," + str(node[1]) + "," + str(node[2]) + "," + str(node[3]) + "\n"
         output_file.write(item)
         output_file.write("Echo Request Bytes Sent (bytes), Echo Request Data Sent (bytes)\n")
         item = str(node[4]) + "," + str(node[5]) + "\n"
         output_file.write(item)
-        output_file.write("Echo Request Bytes Recived (bytes), Echo Request Data Recieved (Bytes)\n")
+        output_file.write("Echo Request Bytes Received (bytes), Echo Request Data Received (Bytes)\n")
         item = str(node[6]) + "," + str(node[7]) + "\n\n"
         output_file.write(item)
         item = "Average RTT (milliseconds)," + str(node[8]) + "\n"
@@ -128,4 +131,3 @@ def compute(data):
 
     # Close output file
     output_file.close()
-
